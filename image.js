@@ -4,13 +4,17 @@ const app = express();
 const port = 3000;
 
 const imageurl = async (params, n) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
 
   const page = await browser.newPage();
 
   try {
     await page.goto(
-      `https://duckduckgo.com/?q=${params}&t=h_&iar=images&iax=images&ia=images`
+      `https://duckduckgo.com/?q=${params}&t=h_&iar=images&iax=images&ia=images`,
+      { waitUntil: "networkidle2" }
     );
 
     await page.waitForSelector(".tile--img__img.js-lazyload"); // Replace 'h1' with your target element
