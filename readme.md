@@ -9,4 +9,7 @@ important modules needed
 --puppeteer
 --node_modules
 
+create docker file
+
+❯ docker build -t image-app .
 
