@@ -1,12 +1,8 @@
-FROM node:18-bullseye
+FROM node:18-bookworm-slim AS base
 
 WORKDIR /app
 
 COPY package*.json ./
-
-RUN npm install
-
-COPY . .
 
 RUN apt-get update && apt-get install -y \
   wget \
@@ -28,8 +24,13 @@ RUN apt-get update && apt-get install -y \
   libx11-6 \
   libnss3 \
   lsb-release \
+  chromium \
   && rm -rf /var/lib/apt/lists/*
+
+RUN npm install
+
+COPY image.js ./
 
 EXPOSE 3000
 
-CMD ["node", "image.js"]
+CMD [ "node","image.js" ]
